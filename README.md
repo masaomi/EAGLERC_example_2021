@@ -1,5 +1,8 @@
 # EAGLERC_example_2021
 
+Docker image (for macOS)
+* https://hub.docker.com/r/masaomi/eaglerc
+
 Note
 * You need to install Docker engine in your environment in advance of the following commands.
 
