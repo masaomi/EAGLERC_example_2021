@@ -3,8 +3,14 @@
 Docker image (for macOS)
 * https://hub.docker.com/r/masaomi/eaglerc
 
+EAGLE-RC
+* https://github.com/tony-kuo/eagle
+
+Reference
+* Tony Kuo and Martin C Frith and Jun Sese and Paul Horton. EAGLE: Explicit Alternative Genome Likelihood Evaluator. BMC Medical Genomics. 11(Suppl 2):28. https://doi.org/10.1186/s12920-018-0342-1
+
 Note
-* You need to install Docker engine in your environment in advance of the following commands.
+* You need to install Docker engine in your environment in advance of the following commands execution.
 
 ## macOS
 
@@ -12,11 +18,14 @@ How to set up the Docker image and container:
 ```
 $ docker pull masaomi/eaglerc
 $ docker run -it --workdir=/root --name eaglerc masaomi/eaglerc
+```
+
+How to run the test code of EAGLE-RC
+```
 # sh scripts/test_eaglerc.sh
 ```
 
-
-After a while, some programs run, which will take a few minutes, and you will get the result
+After a while, some programs run, which will take a few minutes, and you will get the result:
 ```
 Executing EAGLE-RC...
 
@@ -39,6 +48,7 @@ By EAGLE-RC (read classification)
 
 Note
 * Please build the Docker image from the Dockerfile
+
 ```
 $ git clone https://github.com/masaomi/EAGLERC_example_2021.git
 $ cd EAGLERC_example_2021/
