@@ -1,0 +1,107 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+# Masaomi Hatakeyama
+# Version = '20190207-154739'
+
+unless ref_fa=ARGV[0]
+  puts "usage:"
+  puts " #{File.basename(__FILE__)} [reference.fa] > script.sh"
+  puts " -r: #replicates (default: 10)"
+  puts " -d: out_dir (default: out_dir)"
+  puts " -o: out_base (default: out_base)"
+  puts " -c: coverage (default: 10)"
+  puts " --no-gzip: avoid gzip .fastq files (default: off)"
+  puts " --run: run"
+  puts " e.g."
+  puts " $ #{File.basename(__FILE__)} reference.fa -r 3 -d out_dir -o sim_data -c 10 > sim.sh"
+  puts " $ #{File.basename(__FILE__)} reference.fa -r 3 -d out_dir -o sim_data -c 10 --run"
+  puts ""
+  exit
+end
+
+rep = if i=ARGV.index("-r")
+        ARGV[i+1].to_i
+      else
+        10
+      end
+
+dir = if i=ARGV.index("-d")
+        ARGV[i+1]
+      else
+        "out_dir"
+      end
+
+out = if i=ARGV.index("-o")
+        ARGV[i+1]
+      else
+        "out_base"
+      end
+
+cov = if i=ARGV.index("-c")
+        ARGV[i+1].to_i
+      else
+        10
+      end
+
+no_gzip = ARGV.index("--no-gzip")
+run = ARGV.index("--run")
+
+run_com =->(com="") {
+  if run
+    system com
+  else
+    puts com
+  end
+}
+
+unless File.exist?(dir)
+  com = "mkdir #{dir}"
+  run_com.call(com)
+end
+run_com
+
+com = "which art_illumina"
+run_com.call(com)
+
+rep.times do |i|
+  repi = i
+  out_base = File.join(dir, "#{out}_PE150_#{cov}x_#{repi}_R") 
+  com = "art_illumina -ss HS25 -sam -na -i #{ref_fa} -p -l 150 -f #{cov} -m 200 -s 10 -o #{out_base}"
+  run_com.call(com)
+end
+run_com.call
+
+rep.times do |i|
+  repi = i
+  sam = File.join(dir, "#{out}_PE150_#{cov}x_#{repi}_R.sam")
+  bam = sam.gsub(/.sam$/, '.bam')
+  com = "samtools sort -O BAM -o #{bam} #{sam}"
+  run_com.call(com)
+  com = "rm #{sam}"
+  run_com.call(com)
+end
+run_com.call
+
+#com = "rm #{File.join(dir, "*.sam")}"
+run_com.call
+
+rep.times do |i|
+  repi = i
+  out_fq1 = File.join(dir, "#{out}_PE150_#{cov}x_#{repi}_R1.fq")
+  out_fq2 = File.join(dir, "#{out}_PE150_#{cov}x_#{repi}_R2.fq")
+  out_fastq1 = out_fq1.gsub(/.fq$/, '.fastq')
+  out_fastq2 = out_fq2.gsub(/.fq$/, '.fastq')
+  com = "mv #{out_fq1} #{out_fastq1}"
+  run_com.call(com)
+  unless no_gzip
+    com = "gzip #{out_fastq1}"
+    run_com.call(com)
+  end
+  com = "mv #{out_fq2} #{out_fastq2}"
+  run_com.call(com)
+  unless no_gzip
+    com = "gzip #{out_fastq2}"
+    run_com.call(com)
+  end
+end
+
