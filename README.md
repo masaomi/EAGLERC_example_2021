@@ -20,7 +20,7 @@ $ docker pull masaomi/eaglerc
 $ docker run -it --workdir=/root --name eaglerc masaomi/eaglerc
 ```
 
-How to run the test code of EAGLE-RC
+How to run the test code of EAGLE-RC (in the Docker container)
 ```
 # sh scripts/test_eaglerc.sh
 ```
@@ -55,8 +55,22 @@ $ cd EAGLERC_example_2021/
 $ docker build . --tag masaomi/eaglerc
 (it will take some minutes)
 $ docker run -it --workdir=/root --name eaglerc masaomi/eaglerc
-$ sh scripts/test_eaglerc.sh
 ```
 
+
+Note
+* Once you exit from the Docker container, the container will stop
+* Please start it again by
+
+```
+$ docker container start eaglerc
+```
+
+and login to the container
+```
+$ docker exec -it --user root eaglerc bash
+```
+
+For more details about Docker commands, please ask Google
 
 
