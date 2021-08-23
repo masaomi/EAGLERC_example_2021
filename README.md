@@ -8,7 +8,7 @@ EAGLE-RC
 
 Reference (Citation)
 * Tony Kuo and Martin C Frith and Jun Sese and Paul Horton. EAGLE: Explicit Alternative Genome Likelihood Evaluator. BMC Medical Genomics. 11(Suppl 2):28. https://doi.org/10.1186/s12920-018-0342-1
-* Tony C Y Kuo, Masaomi Hatakeyama, Toshiaki Tameshige, Kentaro K Shimizu, Jun Sese Briefings in Bioinformatics, Volume 21, Issue 2, March 2020, Pages 395–407, ttps://doi.org/10.1093/bib/bby121
+* Tony C Y Kuo, Masaomi Hatakeyama, Toshiaki Tameshige, Kentaro K Shimizu, Jun Sese Briefings in Bioinformatics, Volume 21, Issue 2, March 2020, Pages 395–407, https://doi.org/10.1093/bib/bby121
 
 Note
 * You need to install Docker engine in your environment in advance of the following commands execution.
